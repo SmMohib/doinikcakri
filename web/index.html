@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        nav {
+            margin: 10px 0;
+        }
+        
+        nav a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #555;
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .dashboard {
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: #333;
+            color: white;
+        }
+        
+        .button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .button-delete {
+            background-color: #dc3545;
+        }
+    </style>
+
+    <base href="$FLUTTER_BASE_HREF">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="A new Flutter project.">
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="doinikcakri">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <title>doinikcakri</title>
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <div class="container">
+        <nav>
+            <a href="#" id="showProducts">Products</a>
+            <a href="#" id="addProductBtn">Add Product</a>
+            <a href="cv.html">Add CV</a>
+            <a href="signin.html">Dashboard</a>
+        </nav>
+
+        <div class="dashboard" id="dashboard">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script src="flutter_bootstrap.js" async></script>
+    <script type="module">
+        const firebaseConfig = { apiKey: "AIzaSyAu1drJ4qEKGpKMqZ2tn44okZR7cp35ZWw", authDomain: "doinikcakri.firebaseapp.com", projectId: "doinikcakri", storageBucket: "doinikcakri.appspot.com", messagingSenderId: "251643207614", appId: "1:251643207614:web:ca65b32bec02fa7fef23ef",
+        measurementId: "G-GJ9NSWPZ6Y" }; // Initialize Firebase const app = initializeApp(firebaseConfig); const analytics = getAnalytics(app);
+
+
+
+    </script>
+
+    <script>
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        // DOM elements
+        const dashboard = document.getElementById('dashboard');
+
+        // Fetch and display products from Firebase
+        document.getElementById('showProducts').addEventListener('click', () => {
+            db.collection('products').get().then((snapshot) => {
+                let html = '<table>';
+                html += '<tr><th>ID</th><th>Name</th><th>Price</th><th>Action</th></tr>';
+                snapshot.forEach((doc) => {
+                    const product = doc.data();
+                    html += `
+                    <tr>
+                        <td>${doc.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.price}</td>
+                        <td>
+                            <button class="button button-delete" onclick="deleteProduct('${doc.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                });
+                html += '</table>';
+                dashboard.innerHTML = html;
+            });
+        });
+
+        // Add a product to Firebase
+        document.getElementById('addProductBtn').addEventListener('click', () => {
+            let html = `
+            <h3>Add Product</h3>
+            <form id="addProductForm">
+                <label>Name:</label><br>
+                <input type="text" id="productName"><br>
+                <label>Price:</label><br>
+                <input type="number" id="productPrice"><br><br>
+                <button type="button" class="button" onclick="addProduct()">Add Product</button>
+            </form>
+        `;
+            dashboard.innerHTML = html;
+        });
+
+        // Add product function
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+
+            db.collection('products').add({
+                name: name,
+                price: price
+            }).then(() => {
+                alert('Product added successfully');
+            }).catch((error) => {
+                console.error('Error adding product: ', error);
+            });
+        }
+
+        // Delete product function
+        function deleteProduct(id) {
+            db.collection('products').doc(id).delete().then(() => {
+                alert('Product deleted successfully');
+            }).catch((error) => {
+                console.error('Error deleting product: ', error);
+            });
+        }
+    </script>
+
+
+</body>
+
+</html>

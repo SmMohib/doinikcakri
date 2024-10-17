@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        
+        .container {
+            width: 60%;
+            margin: 100px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to your Dashboard</h1>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAu1drJ4qEKGpKMqZ2tn44okZR7cp35ZWw",
+            authDomain: "doinikcakri.firebaseapp.com",
+            projectId: "doinikcakri",
+            storageBucket: "doinikcakri.appspot.com",
+            messagingSenderId: "251643207614",
+            appId: "1:251643207614:web:ca65b32bec02fa7fef23ef",
+            measurementId: "G-GJ9NSWPZ6Y"
+        };
+
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = "signin.html";
+            }).catch((error) => {
+                console.log('Error:', error.message);
+            });
+        }
+    </script>
+</body>
+
+</html>

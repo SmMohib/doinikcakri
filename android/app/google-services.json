@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "251643207614",
+    "project_id": "doinikcakri",
+    "storage_bucket": "doinikcakri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251643207614:android:c8b81c11a8c9af37ef23ef",
+        "android_client_info": {
+          "package_name": "com.job.doinikcakri"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArzP5Ux91p2P0cjA3dR5hqEuvCe-aqit4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
